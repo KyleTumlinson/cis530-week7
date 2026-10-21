@@ -1,0 +1,4 @@
+package edu.bellevue.cis530_Week7.entity;
+
+public class Member {
+}
