@@ -52,12 +52,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/students/**").hasAnyRole("USER",
                                 "ADMIN")
                         .requestMatchers("/api/students/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .oauth2Login(Customizer.withDefaults())
+                .logout(Customizer.withDefaults())
                 .build();
     }
 
