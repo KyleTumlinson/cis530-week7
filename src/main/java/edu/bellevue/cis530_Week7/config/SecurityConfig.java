@@ -23,8 +23,10 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
+    // create a bean to overwrite the default authentication provider
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
+        // we are using bcrypt
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(customUserDetailsService);
         provider.setPasswordEncoder(bCryptPasswordEncoder);
@@ -32,13 +34,19 @@ public class SecurityConfig {
         return provider;
     }
 
+    // create a bean to overwrite the default authentication manager
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    // create a bean to overwrite the default security filter chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
+        /*
+            we want our user to be able to access get requests but nothing else, we also dont
+            always want to have to relogin.
+         */
         return http.csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.GET, "/api/students/**").hasAnyRole("USER",

@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
+    // Load a UserDetails object by getting a member through our repository
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // load a member by username from members table
